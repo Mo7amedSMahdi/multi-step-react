@@ -1,17 +1,20 @@
 import { QueryClient } from '@tanstack/react-query';
 import { createBrowserRouter } from 'react-router-dom';
+import { StepGuard } from '@/components/guards/StepGuard';
+import { MultiStepForm } from '@/features/landing';
 
 export const createRouter = (queryClient: QueryClient) =>
   createBrowserRouter([
     {
       path: '/',
-      lazy: async () => {
-        const { MultiStepForm } = await import('@/features/landing');
-        return { Component: MultiStepForm };
-      },
+      element: (
+        <StepGuard>
+          <MultiStepForm />
+        </StepGuard>
+      ),
       children: [
         {
-          path: '',
+          index: true,
           lazy: async () => {
             const { PersonalInfoStep } = await import('@/features/landing/steps/PersonalInfo');
             return { Component: PersonalInfoStep };

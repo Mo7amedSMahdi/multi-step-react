@@ -35,4 +35,16 @@ export const handlers = [
       }
     );
   }),
+  http.post(setFullPath('/api/submit-form'), async () => {
+    // Simulate network delay
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    return HttpResponse.json(
+      {
+        message: 'Form submitted successfully',
+        orderId: Math.random().toString(36).substring(7),
+      },
+      { status: 200 }
+    );
+  }),
 ];

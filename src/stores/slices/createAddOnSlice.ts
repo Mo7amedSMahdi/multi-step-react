@@ -1,27 +1,53 @@
 import { StateCreator } from 'zustand';
 
 type AddOn = {
-  id: number;
+  id: string;
   name: string;
   description: string;
-  price: number;
-  type: string;
+  monthlyPrice: number;
+  yearlyPrice: number;
+  selected: boolean;
 };
 
-type AddOnSlice = {
-  selectedAddOns: AddOn[];
-  toggleAddOn: (addOn: AddOn) => void;
-  unToggledAddOn: (AddOnId: number) => void;
+type AddOnsSlice = {
+  addOns: AddOn[];
+  toggleAddOn: (id: string) => void;
 };
 
-const createAddOnSlice: StateCreator<AddOnSlice> = (set) => ({
-  selectedAddOns: [],
-  toggleAddOn: (addOn) => set((state) => ({ selectedAddOns: state.selectedAddOns.concat(addOn) })),
-  unToggledAddOn: (addOnId) =>
+const initialAddOns: AddOn[] = [
+  {
+    id: 'online-service',
+    name: 'Online service',
+    description: 'Access to multiplayer games',
+    monthlyPrice: 1,
+    yearlyPrice: 10,
+    selected: false,
+  },
+  {
+    id: 'larger-storage',
+    name: 'Larger storage',
+    description: 'Extra 1TB of cloud save',
+    monthlyPrice: 2,
+    yearlyPrice: 20,
+    selected: false,
+  },
+  {
+    id: 'customizable-profile',
+    name: 'Customizable profile',
+    description: 'Custom theme on your profile',
+    monthlyPrice: 2,
+    yearlyPrice: 20,
+    selected: false,
+  },
+];
+
+const createAddOnsSlice: StateCreator<AddOnsSlice> = (set) => ({
+  addOns: initialAddOns,
+  toggleAddOn: (id) =>
     set((state) => ({
-      selectedAddOns: state.selectedAddOns.filter((c) => c.id !== addOnId),
+      addOns: state.addOns.map((addon) => (addon.id === id ? { ...addon, selected: !addon.selected } : addon)),
     })),
 });
 
-export default createAddOnSlice;
-export type { AddOn, AddOnSlice };
+export default createAddOnsSlice;
+export type { AddOn, AddOnsSlice };

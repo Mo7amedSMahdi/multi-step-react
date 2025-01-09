@@ -14,7 +14,7 @@ type PersonalInfoSlice = {
   setPersonalInfo: (personalInfo: PersonalInfo) => void;
 };
 
-const initialState = {
+export const initialState = {
   firstName: '',
   lastName: '',
   address: '',

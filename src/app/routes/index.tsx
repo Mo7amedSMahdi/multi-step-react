@@ -24,13 +24,13 @@ export const createRouter = (queryClient: QueryClient) =>
             return { Component: SelectPlanStep };
           },
         },
-        // {
-        //   path: 'add-ons',
-        //   lazy: async () => {
-        //     const { AddOnsStep } = await import('@/features/landing/steps/AddOns');
-        //     return { Component: AddOnsStep };
-        //   },
-        // },
+        {
+          path: 'add-ons',
+          lazy: async () => {
+            const { AddOnsStep } = await import('@/features/landing/steps/AddOns');
+            return { Component: AddOnsStep };
+          },
+        },
         // {
         //   path: 'summary',
         //   lazy: async () => {

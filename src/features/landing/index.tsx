@@ -22,9 +22,24 @@ export const MultiStepForm = () => {
         return result;
       },
     },
-    { title: 'Select Plan', path: '/select-plan', validator: () => ({ success: true }) },
-    { title: 'Add-ons', path: '/add-ons', validator: () => ({ success: true }) },
-    { title: 'Summary', path: '/summary', validator: () => ({ success: true }) },
+    {
+      title: 'Select Plan',
+      path: '/select-plan',
+      validator: () => ({ success: true }),
+    },
+    {
+      title: 'Add-ons',
+      path: '/add-ons',
+      validator: () => {
+        // Add-ons are optional, so we always return success
+        return { success: true };
+      },
+    },
+    {
+      title: 'Summary',
+      path: '/summary',
+      validator: () => ({ success: true }),
+    },
   ];
 
   const currentStepIndex = steps.findIndex((step) => step.path === location.pathname) || 0;

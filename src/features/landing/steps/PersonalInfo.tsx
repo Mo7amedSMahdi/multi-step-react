@@ -1,10 +1,11 @@
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input';
 import { useStore } from '@/stores/useStore';
-import type { PersonalInfo } from '@/stores/slices/createPersonalInfoSlice';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { personalInfoSchema } from '../schemas/personalInfo.schema';
+import type { PersonalInfo } from '@/stores/slices/createPersonalInfoSlice';
 
 export const PersonalInfoStep = () => {
   const { personalInfo, setPersonalInfo } = useStore();
@@ -15,9 +16,20 @@ export const PersonalInfoStep = () => {
     mode: 'onChange',
   });
 
+  // Update store when form is submitted
   const onSubmit = (data: PersonalInfo) => {
     setPersonalInfo(data);
   };
+
+  // Watch form changes and update store
+  useEffect(() => {
+    const subscription = form.watch((value) => {
+      if (value) {
+        setPersonalInfo(value as PersonalInfo);
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [form.watch, setPersonalInfo]);
 
   return (
     <Form {...form}>

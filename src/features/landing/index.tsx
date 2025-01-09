@@ -1,33 +1,40 @@
 import React from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-
+import { useStore } from '@/stores/useStore';
+import { personalInfoSchema } from './schemas/personalInfo.schema';
+import { OutletContextType } from './types';
 export const MultiStepForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { personalInfo } = useStore();
 
   const steps = [
-    { title: 'Your Info', path: '/' },
-    { title: 'Select Plan', path: '/select-plan' },
-    { title: 'Add-ons', path: '/add-ons' },
-    { title: 'Summary', path: '/summary' },
+    {
+      title: 'Your Info',
+      path: '/',
+      validator: () => {
+        const form = document.querySelector('form');
+        if (form) {
+          form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+        }
+        const result = personalInfoSchema.safeParse(personalInfo);
+        return result;
+      },
+    },
+    { title: 'Select Plan', path: '/select-plan', validator: () => ({ success: true }) },
+    { title: 'Add-ons', path: '/add-ons', validator: () => ({ success: true }) },
+    { title: 'Summary', path: '/summary', validator: () => ({ success: true }) },
   ];
 
   const currentStepIndex = steps.findIndex((step) => step.path === location.pathname) || 0;
 
   const handleNext = async () => {
-    if (currentStepIndex < steps.length - 1) {
-      // Get the form element
-      const form = document.querySelector('form');
-      if (form) {
-        // Trigger form validation
-        const event = new Event('submit', { cancelable: true, bubbles: true });
-        const isValid = await form.dispatchEvent(event);
+    const currentStep = steps[currentStepIndex];
+    const validationResult = currentStep.validator();
 
-        if (isValid) {
-          navigate(steps[currentStepIndex + 1].path);
-        }
-      }
+    if (validationResult.success && currentStepIndex < steps.length - 1) {
+      navigate(steps[currentStepIndex + 1].path);
     }
   };
 
@@ -35,6 +42,10 @@ export const MultiStepForm = () => {
     if (currentStepIndex > 0) {
       navigate(steps[currentStepIndex - 1].path);
     }
+  };
+
+  const outletContext: OutletContextType = {
+    onSubmitSuccess: () => navigate(steps[currentStepIndex + 1].path),
   };
 
   return (
@@ -59,7 +70,7 @@ export const MultiStepForm = () => {
             ))}
           </div>
 
-          <Outlet />
+          <Outlet context={outletContext} />
         </CardContent>
 
         <CardFooter className='flex justify-between p-6'>

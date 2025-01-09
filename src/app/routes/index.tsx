@@ -17,13 +17,13 @@ export const createRouter = (queryClient: QueryClient) =>
             return { Component: PersonalInfoStep };
           },
         },
-        // {
-        //   path: 'select-plan',
-        //   lazy: async () => {
-        //     const { SelectPlanStep } = await import('@/features/landing/steps/SelectPlan');
-        //     return { Component: SelectPlanStep };
-        //   },
-        // },
+        {
+          path: 'select-plan',
+          lazy: async () => {
+            const { SelectPlanStep } = await import('@/features/landing/steps/SelectPlan');
+            return { Component: SelectPlanStep };
+          },
+        },
         // {
         //   path: 'add-ons',
         //   lazy: async () => {

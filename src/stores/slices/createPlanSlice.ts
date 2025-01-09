@@ -1,28 +1,27 @@
-import { StateCreator } from "zustand";
+import { StateCreator } from 'zustand';
 
-type Plan = {
-  id: number;
-  name: string;
-  price: number;
-  type: string;
+type PlanType = 'arcade' | 'advanced' | 'pro';
+type BillingCycle = 'monthly' | 'yearly';
+
+type PlanInfo = {
+  planType: PlanType;
+  billingCycle: BillingCycle;
 };
 
 type PlanSlice = {
-  plan: Plan;
-  setPlan: (plan: Plan) => void;
+  planInfo: PlanInfo;
+  setPlanInfo: (plan: Partial<PlanInfo>) => void;
 };
 
-const initialState = {
-  id: 0,
-  name: "",
-  price: 0,
-  type: "",
+const initialState: PlanInfo = {
+  planType: 'arcade',
+  billingCycle: 'monthly',
 };
 
 const createPlanSlice: StateCreator<PlanSlice> = (set) => ({
-  plan: initialState,
-  setPlan: (data) => set((state) => ({ plan: { ...state.plan, ...data } })),
+  planInfo: initialState,
+  setPlanInfo: (data) => set((state) => ({ planInfo: { ...state.planInfo, ...data } })),
 });
 
 export default createPlanSlice;
-export type { Plan, PlanSlice };
+export type { PlanInfo, PlanSlice, PlanType, BillingCycle };

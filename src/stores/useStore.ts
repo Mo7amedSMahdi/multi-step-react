@@ -14,7 +14,7 @@ import {
 import { StepSlice } from './slices/createStepSlice';
 import { SubmitFormSlice } from './slices/createSubmitFormSlice';
 
-const useStore = create<
+export const useStore = create<
   PersonalInfoSlice & PlanSlice & AddOnSlice & ToggleSubcriptionPlanSlice & StepSlice & SubmitFormSlice
 >()((...a) => ({
   ...createPersonalInfoSlice(...a),
@@ -24,5 +24,3 @@ const useStore = create<
   ...createStepSlice(...a),
   ...createSubmitFormSlice(...a),
 }));
-
-export default useStore;

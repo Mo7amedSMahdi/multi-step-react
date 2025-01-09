@@ -33,6 +33,14 @@ export const StepGuard = ({ children }: { children: React.ReactNode }) => {
         navigate('/');
       }
     }
+
+    // Check for /thank-you access
+    if (currentPath === '/thank-you') {
+      const result = personalInfoSchema.safeParse(personalInfo);
+      if (!result.success || !planInfo.planType) {
+        navigate('/');
+      }
+    }
   }, [navigate, personalInfo, planInfo]);
 
   return <>{children}</>;

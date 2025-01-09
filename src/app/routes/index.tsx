@@ -41,6 +41,13 @@ export const createRouter = (queryClient: QueryClient) =>
             return { Component: SummaryStep };
           },
         },
+        {
+          path: 'thank-you',
+          lazy: async () => {
+            const { ThankYouStep } = await import('@/features/landing/steps/ThankYou');
+            return { Component: ThankYouStep };
+          },
+        },
       ],
     },
     {

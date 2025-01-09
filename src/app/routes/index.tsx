@@ -31,13 +31,13 @@ export const createRouter = (queryClient: QueryClient) =>
             return { Component: AddOnsStep };
           },
         },
-        // {
-        //   path: 'summary',
-        //   lazy: async () => {
-        //     const { SummaryStep } = await import('@/features/landing/steps/Summary');
-        //     return { Component: SummaryStep };
-        //   },
-        // },
+        {
+          path: 'summary',
+          lazy: async () => {
+            const { SummaryStep } = await import('@/features/landing/steps/Summary');
+            return { Component: SummaryStep };
+          },
+        },
       ],
     },
     {

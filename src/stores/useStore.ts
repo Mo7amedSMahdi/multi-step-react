@@ -13,9 +13,17 @@ import {
 } from './slices';
 import { StepSlice } from './slices/createStepSlice';
 import { SubmitFormSlice } from './slices/createSubmitFormSlice';
+import createPlansListSlice, { PlansListSlice } from './slices/createPlansListSlice';
 
 export const useStore = create<
-  PersonalInfoSlice & PlanSlice & AddOnsSlice & ToggleSubcriptionPlanSlice & StepSlice & SubmitFormSlice
+  PersonalInfoSlice &
+    PlanSlice &
+    AddOnsSlice &
+    ToggleSubcriptionPlanSlice &
+    StepSlice &
+    SubmitFormSlice &
+    AddOnsSlice &
+    PlansListSlice
 >()((...a) => ({
   ...createPersonalInfoSlice(...a),
   ...createPlanSlice(...a),
@@ -24,4 +32,5 @@ export const useStore = create<
   ...createStepSlice(...a),
   ...createSubmitFormSlice(...a),
   ...createAddOnSlice(...a),
+  ...createPlansListSlice(...a),
 }));
